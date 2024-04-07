@@ -19,7 +19,8 @@ import { useRouter } from "next/navigation";
 
 export default function Form() {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  const { router } = useRouter();
+  const [status, setStatus] = useState<string | null>(null);
+  const router = useRouter();
 
   // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   //   const file = e.target.files?.[0];
@@ -67,11 +68,18 @@ export default function Form() {
       {/* <Label htmlFor="picture">Picture</Label> */}
           <CldUploadWidget onSuccess={(results) => {
             // @ts-ignore
+            setStatus("Generating...")
+            setTimeout(() => {
+              router.push("https://replicate.delivery/pbxt/ikzeN35uwz2iOC7KUBWlG3C5qhC2YodfybRsg5oIZbXH24nSA/out.mp3");
+            }, 10000)
           }} uploadPreset="j0vpazql">{({ open }) => {
             return (
-              <button className="button" onClick={() => open()}>
-                Upload
-              </button>
+              <>
+                <button disabled={status !== null} className="button px-4 py-2 bg-white text-black font-semibold" onClick={() => open()}>
+                  Upload
+                </button>
+                <p className="text-white font-semibold">{status}</p>
+              </>
             );
           }}</CldUploadWidget>
       <Select>
